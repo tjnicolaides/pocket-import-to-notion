@@ -1,0 +1,24 @@
+{
+  "name": "pocket-import-to-notion",
+  "version": "1.0.0",
+  "description": "Bring your Pocket export into Notion",
+  "homepage": "https://github.com/tjnicolaides/pocket-import-to-notion#readme",
+  "bugs": {
+    "url": "https://github.com/tjnicolaides/pocket-import-to-notion/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tjnicolaides/pocket-import-to-notion.git"
+  },
+  "license": "ISC",
+  "author": "TJ Nicolaides",
+  "type": "commonjs",
+  "main": "index.js",
+  "bin": "./bin.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "typescript": "^5.8.3"
+  }
+}
