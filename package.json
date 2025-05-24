@@ -12,13 +12,16 @@
   },
   "license": "ISC",
   "author": "TJ Nicolaides",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
-  "bin": "./bin.ts",
+  "bin": "./bin.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@notionhq/client": "^3.1.2",
+    "@types/node": "^22.15.21",
     "typescript": "^5.8.3"
   }
 }
