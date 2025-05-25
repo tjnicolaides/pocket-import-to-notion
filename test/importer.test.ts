@@ -1,5 +1,3 @@
-import type { Client } from '@notionhq/client';
-import importRowsToDatabase from '../src/importer';
 import readAndPrepareRows from '../src/csv';
 
 jest.mock('../src/csv');
