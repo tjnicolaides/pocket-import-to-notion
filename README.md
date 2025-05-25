@@ -1,6 +1,32 @@
 # Pocket Import to Notion
 
+> **npm package:** [`pocket-import-to-notion`](https://www.npmjs.com/package/pocket-import-to-notion)
+
 This CLI tool lets you import your Pocket saves into a Notion database, preserving titles, URLs, and read status. It can create a new Notion database for you, or import into an existing one.
+
+---
+
+## Installation & Usage
+
+### Quick usage with npx (no install required)
+
+```sh
+npx pocket-import-to-notion [--init] <csv1> [csv2 ...]
+```
+
+### Install globally
+
+```sh
+npm install -g pocket-import-to-notion
+pocket-import-to-notion [--init] <csv1> [csv2 ...]
+```
+
+### Install locally (as a dev dependency)
+
+```sh
+npm install --save-dev pocket-import-to-notion
+npx pocket-import-to-notion [--init] <csv1> [csv2 ...]
+```
 
 ---
 
@@ -56,21 +82,21 @@ This CLI tool lets you import your Pocket saves into a Notion database, preservi
 This will create a new database with the correct properties (Name, URL, Read):
 
 ```sh
-NOTION_TOKEN=your_token NOTION_PARENT_PAGE_ID=your_page_id npx . --init
+NOTION_TOKEN=your_token NOTION_PARENT_PAGE_ID=your_page_id npx pocket-import-to-notion --init
 ```
 
 ### **Import a Pocket CSV into Notion**
 - To import into a new database (create and import in one step):
   ```sh
-  NOTION_TOKEN=your_token NOTION_PARENT_PAGE_ID=your_page_id npx . --init mypocket.csv
+  NOTION_TOKEN=your_token NOTION_PARENT_PAGE_ID=your_page_id npx pocket-import-to-notion --init mypocket.csv
   ```
 - To import into an existing database:
   ```sh
-  NOTION_TOKEN=your_token NOTION_DATABASE_ID=your_database_id npx . mypocket.csv
+  NOTION_TOKEN=your_token NOTION_DATABASE_ID=your_database_id npx pocket-import-to-notion mypocket.csv
   ```
 - You can specify multiple CSVs:
   ```sh
-  NOTION_TOKEN=your_token NOTION_DATABASE_ID=your_database_id npx . mypocket1.csv mypocket2.csv
+  NOTION_TOKEN=your_token NOTION_DATABASE_ID=your_database_id npx pocket-import-to-notion mypocket1.csv mypocket2.csv
   ```
 
 ---
@@ -87,6 +113,7 @@ NOTION_TOKEN=your_token NOTION_PARENT_PAGE_ID=your_page_id npx . --init
 ## Troubleshooting
 - **"Read is not a property that exists"**: The Notion database you are importing into does not have a `Read` property. Use `--init` to create a new database, or add the property manually.
 - **Permission errors**: Make sure your integration has access to the parent page/database. See [granting permissions](https://developers.notion.com/docs/create-a-notion-integration#give-your-integration-page-permissions).
+- **Usage message**: If you see `Usage: npx . [--init] <csv1> [csv2 ...]`, you likely ran the CLI without specifying any CSV files or the `--init` flag. See the usage examples above.
 
 ---
 
@@ -94,6 +121,8 @@ NOTION_TOKEN=your_token NOTION_PARENT_PAGE_ID=your_page_id npx . --init
 - [Create a Notion integration & get your token](https://www.notion.so/profile/integrations)
 - [Grant integration permission to a page](https://developers.notion.com/docs/create-a-notion-integration#give-your-integration-page-permissions)
 - [Export your Pocket list](https://support.mozilla.org/en-US/kb/exporting-your-pocket-list)
+
+---
 
 ## Contributing
 
