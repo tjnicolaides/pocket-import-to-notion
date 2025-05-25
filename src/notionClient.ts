@@ -8,7 +8,9 @@ export function getEnvOrThrow(name: string): string {
     return value;
 }
 
-export function getNotionClient(): InstanceType<typeof Client> {
+function getNotionClient(): InstanceType<typeof Client> {
     const token = getEnvOrThrow('NOTION_TOKEN');
     return new Client({ auth: token });
-} 
+}
+
+export default getNotionClient;

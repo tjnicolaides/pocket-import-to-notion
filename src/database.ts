@@ -1,6 +1,9 @@
 import type { Client } from '@notionhq/client';
 
-export async function createDatabase(notion: InstanceType<typeof Client>, parentPageId: string): Promise<string> {
+async function createDatabase(
+    notion: InstanceType<typeof Client>,
+    parentPageId: string,
+): Promise<string> {
     const db = await notion.databases.create({
         parent: { type: 'page_id', page_id: parentPageId },
         title: [{ type: 'text', text: { content: 'Pocket Import' } }],
@@ -8,9 +11,12 @@ export async function createDatabase(notion: InstanceType<typeof Client>, parent
         properties: {
             Name: { title: {} },
             URL: { url: {} },
-            Read: { checkbox: {} }
-        }
+            Read: { checkbox: {} },
+        },
     });
+    // eslint-disable-next-line no-console
     console.log('Created Notion database:', db.id);
     return db.id;
-} 
+}
+
+export default createDatabase;

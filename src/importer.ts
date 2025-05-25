@@ -1,16 +1,21 @@
 import type { Client } from '@notionhq/client';
 
-export async function importRowsToDatabase(notion: InstanceType<typeof Client>, databaseId: string, rows: any[]) {
-    for (const row of rows) {
+function importRowsToDatabase(
+    notion: InstanceType<typeof Client>,
+    databaseId: string,
+    rows: any[],
+) {
+    return Promise.all(rows.map((row) => {
         const props: any = {
             Name: { title: [{ text: { content: (row.title ?? row.url ?? '') as string } }] },
             URL: { url: (row.url ?? '') as string },
-            Read: { checkbox: (row.status || '') === 'archive' }
+            Read: { checkbox: (row.status || '') === 'archive' },
         };
-        await notion.pages.create({
+        return notion.pages.create({
             parent: { database_id: databaseId },
-            properties: props
+            properties: props,
         });
-        // Optionally, add a delay here to avoid rate limits
-    }
-} 
+    }));
+}
+
+export default importRowsToDatabase;
