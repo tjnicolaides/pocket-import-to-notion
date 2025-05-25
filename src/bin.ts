@@ -1,19 +1,9 @@
 #!/usr/bin/env node
 
-import { Client } from '@notionhq/client';
-import fs from 'fs';
-import path from 'path';
-import { parse } from 'csv-parse';
-import fetch from 'node-fetch';
-
-const notionToken = process.env.NOTION_TOKEN;
-const parentPageId = process.env.NOTION_PARENT_PAGE_ID;
-const databaseIdEnv = process.env.NOTION_DATABASE_ID;
-if (!notionToken) {
-    console.error('Error: NOTION_TOKEN environment variable is required.');
-    process.exit(1);
-}
-const notion = new Client({ auth: notionToken });
+import { getNotionClient, getEnvOrThrow } from './notionClient.js';
+import { createDatabase } from './database.js';
+import { readAndPrepareRows } from './csv.js';
+import { importRowsToDatabase } from './importer.js';
 
 const args = process.argv.slice(2);
 const doInit = args.includes('--init');
@@ -24,67 +14,26 @@ if (csvPaths.length === 0 && !doInit) {
     process.exit(1);
 }
 
-if (doInit && !parentPageId) {
-    console.error('Error: NOTION_PARENT_PAGE_ID environment variable is required for --init.');
-    process.exit(1);
-}
-if (!doInit && !databaseIdEnv) {
-    console.error('Error: NOTION_DATABASE_ID environment variable is required unless --init is passed.');
-    process.exit(1);
-}
-
-async function createDatabase(): Promise<string> {
-    const db = await notion.databases.create({
-        parent: { type: 'page_id', page_id: parentPageId! },
-        title: [{ type: 'text', text: { content: 'Pocket Import' } }],
-        icon: { type: 'emoji', emoji: '📚' },
-        properties: {
-            Name: { title: {} },
-            URL: { url: {} },
-            Read: { checkbox: {} }
-        }
-    });
-    console.log('Created Notion database:', db.id);
-    return db.id;
-}
-
-async function importCsvToDatabase(databaseId: string, csvPath: string) {
-    // Read and parse all rows first
-    const rows: any[] = [];
-    const parser = fs.createReadStream(csvPath).pipe(parse({ columns: true }));
-    for await (const row of parser) {
-        if ((row.status || '').toLowerCase() !== 'done') {
-            rows.push(row);
-        }
-    }
-    // Sort by time_added (ascending)
-    rows.sort((a, b) => Number(a.time_added) - Number(b.time_added));
-    for (const row of rows) {
-        const props: any = {
-            Name: { title: [{ text: { content: (row.title ?? row.url ?? '') as string } }] },
-            URL: { url: (row.url ?? '') as string },
-            Read: { checkbox: (row.status || '') === 'archive' }
-        };
-        await notion.pages.create({
-            parent: { database_id: databaseId },
-            properties: props
-        });
-        // Optionally, add a delay here to avoid rate limits
-    }
-    console.log(`Imported ${csvPath} to Notion database ${databaseId}`);
-}
+const notion = getNotionClient();
 
 async function main() {
-    let databaseId = databaseIdEnv;
+    let databaseId = process.env.NOTION_DATABASE_ID;
     if (doInit) {
-        databaseId = await createDatabase();
+        const parentPageId = getEnvOrThrow('NOTION_PARENT_PAGE_ID');
+        databaseId = await createDatabase(notion, parentPageId);
         if (csvPaths.length === 0) {
             console.log('Database initialized. No CSVs provided for import.');
             return;
         }
+    } else if (!databaseId) {
+        console.error('Error: NOTION_DATABASE_ID environment variable is required unless --init is passed.');
+        process.exit(1);
     }
+
     for (const csvPath of csvPaths) {
-        await importCsvToDatabase(databaseId!, csvPath);
+        const rows = await readAndPrepareRows(csvPath);
+        await importRowsToDatabase(notion, databaseId!, rows);
+        console.log(`Imported ${csvPath} to Notion database ${databaseId}`);
     }
     console.log('Import complete!');
 }
