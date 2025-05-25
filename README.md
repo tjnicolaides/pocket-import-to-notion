@@ -93,4 +93,8 @@ NOTION_TOKEN=your_token NOTION_PARENT_PAGE_ID=your_page_id npx . --init
 ## Resources
 - [Create a Notion integration & get your token](https://www.notion.so/profile/integrations)
 - [Grant integration permission to a page](https://developers.notion.com/docs/create-a-notion-integration#give-your-integration-page-permissions)
-- [Export your Pocket list](https://support.mozilla.org/en-US/kb/exporting-your-pocket-list) 
+- [Export your Pocket list](https://support.mozilla.org/en-US/kb/exporting-your-pocket-list)
+
+## Contributing
+
+See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidelines on contributing, code style, and running tests/lint. 
