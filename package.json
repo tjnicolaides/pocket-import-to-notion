@@ -14,7 +14,7 @@
   "author": "TJ Nicolaides",
   "type": "module",
   "main": "build/bin.js",
-  "bin": "./build/bin.js",
+  "bin": "./build/cli.js",
   "scripts": {
     "build": "tsc",
     "test": "jest",
