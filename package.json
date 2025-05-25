@@ -17,7 +17,9 @@
   "bin": "./build/bin.js",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src test --ext .ts",
+    "lint:fix": "eslint src test --ext .ts --fix"
   },
   "dependencies": {
     "@notionhq/client": "^3.1.2",

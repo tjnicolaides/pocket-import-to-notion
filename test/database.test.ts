@@ -1,4 +1,4 @@
-import { createDatabase } from '../src/database';
+import createDatabase from '../src/database';
 
 describe('createDatabase', () => {
   it('creates a database and returns its id', async () => {
@@ -8,7 +8,11 @@ describe('createDatabase', () => {
     const id = await createDatabase(mockNotion, parentPageId);
     expect(mockCreate).toHaveBeenCalledWith(expect.objectContaining({
       parent: { type: 'page_id', page_id: parentPageId },
-      properties: expect.objectContaining({ Name: expect.anything(), URL: expect.anything(), Read: expect.anything() }),
+      properties: expect.objectContaining({
+        Name: expect.anything(),
+        URL: expect.anything(),
+        Read: expect.anything(),
+      }),
     }));
     expect(id).toBe('db123');
   });

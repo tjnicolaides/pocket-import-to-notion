@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { readAndPrepareRows } from '../src/csv';
+import readAndPrepareRows from '../src/csv';
 
 describe('readAndPrepareRows', () => {
   const testCsvPath = path.join(__dirname, 'test.csv');

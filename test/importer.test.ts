@@ -1,4 +1,4 @@
-import { importRowsToDatabase } from '../src/importer';
+import importRowsToDatabase from '../src/importer';
 
 describe('importRowsToDatabase', () => {
   it('calls pages.create for each row with correct properties', async () => {
@@ -13,7 +13,11 @@ describe('importRowsToDatabase', () => {
     expect(mockCreate).toHaveBeenCalledTimes(2);
     expect(mockCreate).toHaveBeenCalledWith(expect.objectContaining({
       parent: { database_id: databaseId },
-      properties: expect.objectContaining({ Name: expect.anything(), URL: expect.anything(), Read: expect.anything() }),
+      properties: expect.objectContaining({
+        Name: expect.anything(),
+        URL: expect.anything(),
+        Read: expect.anything(),
+      }),
     }));
   });
 });

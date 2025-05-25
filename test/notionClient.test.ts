@@ -1,4 +1,4 @@
-import { getEnvOrThrow, getNotionClient } from '../src/notionClient';
+import getNotionClient, { getEnvOrThrow } from '../src/notionClient';
 
 jest.mock('@notionhq/client', () => ({
   Client: jest.fn(),
