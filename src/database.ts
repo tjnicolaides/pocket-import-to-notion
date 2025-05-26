@@ -14,7 +14,7 @@ async function createDatabase(
       Read: { checkbox: {} },
     },
   });
-    // eslint-disable-next-line no-console
+  // eslint-disable-next-line no-console
   console.log('Created Notion database:', db.id);
   return db.id;
 }

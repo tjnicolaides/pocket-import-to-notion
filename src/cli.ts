@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import getNotionClient, { getEnvOrThrow } from './notionClient';
-import createDatabase from './database';
-import importWithProgress from './bin';
+import getNotionClient, { getEnvOrThrow } from './notionClient.js';
+import createDatabase from './database.js';
+import importWithProgress from './bin.js';
 
 const args = process.argv.slice(2);
 const doInit = args.includes('--init');
