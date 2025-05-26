@@ -1,6 +1,6 @@
 {
   "name": "pocket-import-to-notion",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Bring your Pocket export into Notion",
   "homepage": "https://github.com/tjnicolaides/pocket-import-to-notion#readme",
   "bugs": {
